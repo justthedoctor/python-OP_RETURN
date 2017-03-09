@@ -1,28 +1,3 @@
-# OP_RETURN.py
-#
-# Python script to generate and retrieve OP_RETURN bitcoin transactions
-#
-# Copyright (c) Coin Sciences Ltd
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
-
-
 import subprocess, json, time, random, os.path, binascii, struct, string, re, hashlib
 
 
@@ -40,12 +15,12 @@ OP_RETURN_BITCOIN_IP='127.0.0.1' # IP address of your bitcoin node
 OP_RETURN_BITCOIN_USE_CMD=False # use command-line instead of JSON-RPC?
 
 if OP_RETURN_BITCOIN_USE_CMD:
-	OP_RETURN_BITCOIN_PATH='/usr/bin/bitcoin-cli' # path to bitcoin-cli executable on this server
+	OP_RETURN_BITCOIN_PATH='/usr/bin/pandacoind' # path to pandacoind executable on this server
 	
 else:
 	OP_RETURN_BITCOIN_PORT='' # leave empty to use default port for mainnet/testnet
-	OP_RETURN_BITCOIN_USER='' # leave empty to read from ~/.bitcoin/bitcoin.conf (Unix only)
-	OP_RETURN_BITCOIN_PASSWORD='' # leave empty to read from ~/.bitcoin/bitcoin.conf (Unix only)
+	OP_RETURN_BITCOIN_USER='' 
+	OP_RETURN_BITCOIN_PASSWORD=''
 	
 OP_RETURN_BTC_FEE=0.0001 # BTC fee to pay per transaction
 OP_RETURN_BTC_DUST=0.00001 # omit BTC outputs smaller than this
@@ -62,7 +37,7 @@ def OP_RETURN_send(send_address, send_amount, metadata, testnet=False):
 	# Validate some parameters
 	
 	if not OP_RETURN_bitcoin_check(testnet):
-		return {'error': 'Please check Bitcoin Core is running and OP_RETURN_BITCOIN_* constants are set correctly'}
+		return {'error': 'Please check Pandacoin is running and OP_RETURN_BITCOIN_* constants are set correctly'}
 
 	result=OP_RETURN_bitcoin_cmd('validateaddress', testnet, send_address)
 	if not ('isvalid' in result and result['isvalid']):
@@ -114,7 +89,7 @@ def OP_RETURN_store(data, testnet=False):
 	# Validate parameters and get change address
 
 	if not OP_RETURN_bitcoin_check(testnet):
-		return {'error': 'Please check Bitcoin Core is running and OP_RETURN_BITCOIN_* constants are set correctly'}
+		return {'error': 'Please check Pandacoin Core is running and OP_RETURN_BITCOIN_* constants are set correctly'}
 		
 	if isinstance(data, basestring):
 		data=data.encode('utf-8') # convert to binary string
@@ -188,10 +163,10 @@ def OP_RETURN_store(data, testnet=False):
 
 
 def OP_RETURN_retrieve(ref, max_results=1, testnet=False):
-	# Validate parameters and get status of Bitcoin Core
+	# Validate parameters and get status of Pandacoin
 
 	if not OP_RETURN_bitcoin_check(testnet):
-		return {'error': 'Please check Bitcoin Core is running and OP_RETURN_BITCOIN_* constants are set correctly'}
+		return {'error': 'Please check Pandacoin is running and OP_RETURN_BITCOIN_* constants are set correctly'}
 		
 	max_height=int(OP_RETURN_bitcoin_cmd('getblockcount', testnet))
 	heights=OP_RETURN_get_ref_heights(ref, max_height)
