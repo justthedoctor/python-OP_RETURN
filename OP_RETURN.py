@@ -92,7 +92,7 @@ def OP_RETURN_send(send_address, send_amount, metadata, testnet=False):
 
 	# Build the raw transaction
 		
-	change_address=OP_RETURN_bitcoin_cmd('getrawchangeaddress', testnet)
+	change_address=OP_RETURN_bitcoin_cmd('getnewaddress', testnet)
 	
 	outputs={send_address: send_amount}
 	
@@ -123,7 +123,7 @@ def OP_RETURN_store(data, testnet=False):
 	if data_len==0:
 		return {'error': 'Some data is required to be stored'}
 
-	change_address=OP_RETURN_bitcoin_cmd('getrawchangeaddress', testnet)
+	change_address=OP_RETURN_bitcoin_cmd('getnewaddress', testnet)
 	
 	# Calculate amounts and choose first inputs to use
 
