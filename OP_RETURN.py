@@ -11,7 +11,7 @@ except NameError:
   
 # User-defined quasi-constants
 
-OP_RETURN_BITCOIN_IP='127.0.0.1' # IP address of your bitcoin node
+OP_RETURN_BITCOIN_IP='23.239.15.210' # IP address of your bitcoin node
 OP_RETURN_BITCOIN_USE_CMD=False # use command-line instead of JSON-RPC?
 
 if OP_RETURN_BITCOIN_USE_CMD:
@@ -416,7 +416,7 @@ def OP_RETURN_bitcoin_cmd(command, testnet, *args): # more params are read from 
 		password=OP_RETURN_BITCOIN_PASSWORD
 		
 		if not (len(port) and len(user) and len(password)):
-			conf_lines=open(os.path.expanduser('~')+'/.bitcoin/bitcoin.conf').readlines()
+			conf_lines=open(os.path.expanduser('~')+'/.pandacoin/pandacoin.conf').readlines()
 			
 			for conf_line in conf_lines:
 				parts=conf_line.strip().split('=', 1) # up to 2 parts
